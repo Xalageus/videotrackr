@@ -1909,7 +1909,15 @@
     </property>
     <addaction name="actionProperty_Editor"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionSelect_Region"/>
+    <addaction name="actionSettings"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuHelp"/>
    <addaction name="menuDEBUG"/>
@@ -2081,6 +2089,16 @@
   <action name="actionShow_Object_Data_from_current_frame">
    <property name="text">
     <string>Show Object Data from current frame</string>
+   </property>
+  </action>
+  <action name="actionSelect_Region">
+   <property name="text">
+    <string>Select Region</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings...</string>
    </property>
   </action>
  </widget>

@@ -9,6 +9,7 @@ from videotrackr.logger import logger
 from videotrackr.widgets.progressbarlabel import ProgressBarLabel
 from videotrackr.pe_controller import pe_controller
 from videotrackr.about_controller import about_controller
+from videotrackr.sr_controller import sr_controller
 
 class main_controller(Ui_MainWindow, QMainWindow):
     def __init__(self, DEBUG):
@@ -26,6 +27,7 @@ class main_controller(Ui_MainWindow, QMainWindow):
         self.ui.actionQuit.triggered.connect(lambda: self.close())
         self.ui.actionProperty_Editor.toggled.connect(self.show_hide_pe)
         self.ui.actionAbout.triggered.connect(lambda: self.open_about())
+        self.ui.actionSelect_Region.triggered.connect(lambda: self.open_sr())
 
         #Connect playhead signals and slots
         self.ui.playHeadSlider.sliderMoved.connect(lambda: self.update_playHead())
@@ -321,3 +323,7 @@ class main_controller(Ui_MainWindow, QMainWindow):
     def open_about(self):
         about = about_controller()
         about.exec_()
+
+    def open_sr(self):
+        sr = sr_controller(self.ui.rawFrame.pix)
+        sr.exec_()

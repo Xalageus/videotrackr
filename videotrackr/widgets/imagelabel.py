@@ -5,6 +5,8 @@ import PySide6.QtGui as QtGui
 
 class ImageLabel(QtWidgets.QLabel):
     ResizeSignal = QtCore.Signal(int)
+    MousePressSignal = QtCore.Signal(QtCore.QPoint)
+    MouseReleaseSignal = QtCore.Signal(QtCore.QPoint)
 
     def __init__(self, parent):
         super(ImageLabel, self).__init__(parent)
@@ -62,15 +64,13 @@ class ImageLabel(QtWidgets.QLabel):
         if not self.pix.isNull() and self.clickable:
             if(self.isWithinImage(event.pos())):
                 click_pos = self.convertPointWithinBounds(event.pos())
-                print(click_pos)
-                print(self.convertPointToFullSize(click_pos))
+                self.MousePressSignal.emit(self.convertPointToFullSize(click_pos))
 
     def mouseReleaseEvent(self, event):
         if not self.pix.isNull() and self.clickable:
             if(self.isWithinImage(event.pos())):
                 click_pos = self.convertPointWithinBounds(event.pos())
-                print(click_pos)
-                print(self.convertPointToFullSize(click_pos))
+                self.MouseReleaseSignal.emit(self.convertPointToFullSize(click_pos))
 
     def calcOriginPoint(self):
         # (Width/Height of label - Width/Height of pixmap) / 2
