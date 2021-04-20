@@ -54,12 +54,18 @@ class ImageLabel(QtWidgets.QLabel):
         self.repaint()
 
     def mousePressEvent(self, event):
-        if(self.isWithinImage(event.pos())):
-            print(event.pos())
+        if not self.pix.isNull():
+            if(self.isWithinImage(event.pos())):
+                click_pos = self.convertPointWithinBounds(event.pos())
+                print(click_pos)
+                print(self.convertPointToFullSize(click_pos))
 
     def mouseReleaseEvent(self, event):
-        if(self.isWithinImage(event.pos())):
-            print(event.pos())
+        if not self.pix.isNull():
+            if(self.isWithinImage(event.pos())):
+                click_pos = self.convertPointWithinBounds(event.pos())
+                print(click_pos)
+                print(self.convertPointToFullSize(click_pos))
 
     def calcOriginPoint(self):
         # (Width/Height of label - Width/Height of pixmap) / 2
@@ -78,3 +84,19 @@ class ImageLabel(QtWidgets.QLabel):
                 return True
 
         return False
+
+    def convertPointWithinBounds(self, click_pos):
+        x = click_pos.x() - self.pix_origin_point.x()
+        y = click_pos.y() - self.pix_origin_point.y()
+        return QtCore.QPoint(x, y)
+
+    def getScaleMult(self):
+        x_mult = self.pix.rect().getRect()[2] / self.pixmap().rect().getRect()[2]
+        y_mult = self.pix.rect().getRect()[3] / self.pixmap().rect().getRect()[3]
+        return (x_mult, y_mult)
+
+    def convertPointToFullSize(self, click_pos):
+        scale_mult = self.getScaleMult()
+        x = scale_mult[0] * click_pos.x()
+        y = scale_mult[1] * click_pos.y()
+        return QtCore.QPoint(x, y)
