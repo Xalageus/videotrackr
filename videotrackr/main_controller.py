@@ -174,6 +174,7 @@ class main_controller(Ui_MainWindow, QMainWindow):
             self.ui.actionSet_Label_Message_2.triggered.connect(lambda: self.debug_pb_set_message_2())
             self.ui.actionRemove_Label_Message.triggered.connect(lambda: self.pb.remove_message())
             self.ui.actionPrint_real_current_frame.triggered.connect(lambda: self.debug_print_real_current_frame())
+            self.ui.actionShow_Object_Data_from_current_frame.triggered.connect(lambda: self.debug_show_obj_data_current_frame())
             self.debug_logger.print_debug_info(0)
             self.debugging = True
 
@@ -214,6 +215,20 @@ class main_controller(Ui_MainWindow, QMainWindow):
 
     def debug_print_real_current_frame(self):
         self.debug_logger.print_debug_info(23, self.tracker.get_real_current_frame())
+
+    def debug_show_obj_data_current_frame(self):
+        objs_in_frame = self.tracker.video_data.get_object_points(self.tracker.video_data.current_frame - 1)
+        total_objs = len(objs_in_frame)
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("Total objects in frame: " + str(total_objs) + "\n\n" + "First three objects:\n" +
+            "(" + str(objs_in_frame[0][0]) + ", " + str(objs_in_frame[0][1]) + ") Width: " + str(objs_in_frame[0][2]) + ", Height: " + str(objs_in_frame[0][3]) + "\n" +
+            "(" + str(objs_in_frame[1][0]) + ", " + str(objs_in_frame[1][1]) + ") Width: " + str(objs_in_frame[1][2]) + ", Height: " + str(objs_in_frame[1][3]) + "\n" +
+            "(" + str(objs_in_frame[2][0]) + ", " + str(objs_in_frame[2][1]) + ") Width: " + str(objs_in_frame[2][2]) + ", Height: " + str(objs_in_frame[2][3]))
+        msg.setWindowTitle("Objects in current frame")
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
 
 #endregion
 

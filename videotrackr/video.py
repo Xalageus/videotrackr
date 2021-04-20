@@ -22,6 +22,9 @@ class tracker_video_data():
         self.num_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         self.total_time_in_secs = int(self.num_frames / self.fps)
 
+    def get_object_points(self, frame):
+        return self.obj_points[frame]
+
 class video_tracker(QObject):
     FrameSignal = Signal(int)
     finished = Signal()

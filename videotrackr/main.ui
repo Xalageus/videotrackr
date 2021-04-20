@@ -415,7 +415,7 @@
              </colorrole>
              <colorrole role="PlaceholderText">
               <brush brushstyle="NoBrush">
-               <color alpha="255">
+               <color alpha="128">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -606,7 +606,7 @@
              </colorrole>
              <colorrole role="PlaceholderText">
               <brush brushstyle="NoBrush">
-               <color alpha="255">
+               <color alpha="128">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -1012,7 +1012,7 @@
              </colorrole>
              <colorrole role="PlaceholderText">
               <brush brushstyle="NoBrush">
-               <color alpha="255">
+               <color alpha="128">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -1203,7 +1203,7 @@
              </colorrole>
              <colorrole role="PlaceholderText">
               <brush brushstyle="NoBrush">
-               <color alpha="255">
+               <color alpha="128">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -1609,7 +1609,7 @@
              </colorrole>
              <colorrole role="PlaceholderText">
               <brush brushstyle="NoBrush">
-               <color alpha="255">
+               <color alpha="128">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -1800,7 +1800,7 @@
              </colorrole>
              <colorrole role="PlaceholderText">
               <brush brushstyle="NoBrush">
-               <color alpha="255">
+               <color alpha="128">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -1901,6 +1901,7 @@
     <addaction name="actionPrint_tracker_data"/>
     <addaction name="menuProgressBarLabel"/>
     <addaction name="actionPrint_real_current_frame"/>
+    <addaction name="actionShow_Object_Data_from_current_frame"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -2075,6 +2076,11 @@
    </property>
    <property name="text">
     <string>Property Editor</string>
+   </property>
+  </action>
+  <action name="actionShow_Object_Data_from_current_frame">
+   <property name="text">
+    <string>Show Object Data from current frame</string>
    </property>
   </action>
  </widget>
