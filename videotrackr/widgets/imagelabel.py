@@ -10,12 +10,16 @@ class ImageLabel(QtWidgets.QLabel):
         super(ImageLabel, self).__init__(parent)
         self.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
         self.setText("")
+        self.clickable = False
         self.pix = QPixmap()
         self.pix_origin_point = QtCore.QPoint(0, 0)
         self.pix_end_point = QtCore.QPoint(0, 0)
         self.setPixmap(self.pix)
         self.ResizeSignal.connect(self.resizeEvent)
         self.installEventFilter(self)
+
+    def setClickable(self, clickable):
+        self.clickable = clickable
 
     def eventFilter(self, watched: QtCore.QObject, event: QtCore.QEvent) -> bool:
         if(event.type() == QtCore.QEvent.Resize):
@@ -29,8 +33,9 @@ class ImageLabel(QtWidgets.QLabel):
         if not self.pix.isNull():
             size = self.size()
             self.setPixmap(self.pix.scaled(size, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.TransformationMode.SmoothTransformation))
-            self.pix_origin_point = self.calcOriginPoint()
-            self.pix_end_point = self.calcEndPoint(self.pix_origin_point)
+            if(self.clickable):
+                self.pix_origin_point = self.calcOriginPoint()
+                self.pix_end_point = self.calcEndPoint(self.pix_origin_point)
 
     #Paint event that is currently not needed
     # def paintEvent(self, event):
@@ -54,14 +59,14 @@ class ImageLabel(QtWidgets.QLabel):
         self.repaint()
 
     def mousePressEvent(self, event):
-        if not self.pix.isNull():
+        if not self.pix.isNull() and self.clickable:
             if(self.isWithinImage(event.pos())):
                 click_pos = self.convertPointWithinBounds(event.pos())
                 print(click_pos)
                 print(self.convertPointToFullSize(click_pos))
 
     def mouseReleaseEvent(self, event):
-        if not self.pix.isNull():
+        if not self.pix.isNull() and self.clickable:
             if(self.isWithinImage(event.pos())):
                 click_pos = self.convertPointWithinBounds(event.pos())
                 print(click_pos)
