@@ -11,6 +11,8 @@ class ImageLabel(QtWidgets.QLabel):
         self.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
         self.setText("")
         self.pix = QPixmap()
+        self.pix_origin_point = QtCore.QPoint(0, 0)
+        self.pix_end_point = QtCore.QPoint(0, 0)
         self.setPixmap(self.pix)
         self.ResizeSignal.connect(self.resizeEvent)
         self.installEventFilter(self)
@@ -27,6 +29,8 @@ class ImageLabel(QtWidgets.QLabel):
         if not self.pix.isNull():
             size = self.size()
             self.setPixmap(self.pix.scaled(size, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.TransformationMode.SmoothTransformation))
+            self.pix_origin_point = self.calcOriginPoint()
+            self.pix_end_point = self.calcEndPoint(self.pix_origin_point)
 
     #Paint event that is currently not needed
     # def paintEvent(self, event):
@@ -48,3 +52,29 @@ class ImageLabel(QtWidgets.QLabel):
         self.pix = QPixmap()
         self.setPixmap(self.pix)
         self.repaint()
+
+    def mousePressEvent(self, event):
+        if(self.isWithinImage(event.pos())):
+            print(event.pos())
+
+    def mouseReleaseEvent(self, event):
+        if(self.isWithinImage(event.pos())):
+            print(event.pos())
+
+    def calcOriginPoint(self):
+        # (Width/Height of label - Width/Height of pixmap) / 2
+        x = (self.rect().getRect()[2] - self.pixmap().rect().getRect()[2]) / 2
+        y = (self.rect().getRect()[3] - self.pixmap().rect().getRect()[3]) / 2
+        return QtCore.QPoint(x, y)
+
+    def calcEndPoint(self, origin_point):
+        x = origin_point.x() + self.pixmap().rect().getRect()[2]
+        y = origin_point.y() + self.pixmap().rect().getRect()[3]
+        return QtCore.QPoint(x, y)
+
+    def isWithinImage(self, click_pos):
+        if(click_pos.x() >= self.pix_origin_point.x() and click_pos.x() <= self.pix_end_point.x()):
+            if(click_pos.y() >= self.pix_origin_point.y() and click_pos.y() <= self.pix_end_point.y()):
+                return True
+
+        return False
