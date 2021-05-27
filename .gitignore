@@ -142,3 +142,6 @@ cython_debug/
 
 # Qt _ui.py files
 *_ui.py
+
+# Qt
+.qt_for_python
